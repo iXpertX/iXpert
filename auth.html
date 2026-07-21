@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Portal - iXpert</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Custom CSS Link -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Supabase Client Connection -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        .auth-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(85vh - 80px);
+            padding: 40px 8%;
+        }
+        .auth-split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            width: 100%;
+            max-width: 950px;
+        }
+        .auth-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+        .auth-card h2 { color: var(--secondary-color); margin-bottom: 5px; }
+        .auth-card p { font-size: 14px; margin-bottom: 20px; }
+        .auth-form { display: flex; flex-direction: column; gap: 15px; }
+        .auth-form input {
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: inherit;
+            background: #fff;
+        }
+        .auth-form button {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        .auth-form button:hover { background-color: #1d4ed8; }
+        .status-box {
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 15px;
+            text-align: center;
+        }
+        .status-box.error { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .status-box.success { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+        
+        @media (max-width: 768px) {
+            .auth-split-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar Section -->
+    <header class="navbar">
+        <div class="logo">i<span class="highlight">Xpert</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="auth-wrapper">
+        <div class="auth-split-grid">
+            
+            <!-- REGISTER BOX -->
+            <div class="auth-card">
+                <h2>Create Account</h2>
+                <p>Join the marketplace as a buyer or vendor</p>
+                <form id="register-form" class="auth-form">
+                    <input type="email" id="reg-email" placeholder="Your Email Address" required>
+                    <input type="password" id="reg-password" placeholder="Choose a Secure Password" required minlength="6">
+                    <button type="submit">Register Account</button>
+                </form>
+                <div id="register-status" class="status-box" style="display: none;"></div>
+            </div>
+
+            <!-- LOGIN BOX -->
+            <div class="auth-card" style="border-left: 1px solid rgba(0,0,0,0.05);">
+                <h2>Welcome Back</h2>
+                <p>Log into your secure user dashboard portal</p>
+                <form id="login-form" class="auth-form">
+                    <input type="email" id="login-email" placeholder="Your Registered Email" required>
+                    <input type="password" id="login-password" placeholder="Enter Account Password" required>
+                    <button type="submit" style="background-color: #0f172a;">Sign In</button>
+                </form>
+                <div id="login-status" class="status-box" style="display: none;"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_0PC54EtXomVUGffAkZZDcg_WzhVfVsc";
+        
+        // Native Global Browser Client Initialization
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+        });
+
+        // Register Action Handler
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('register-status');
+            status.style.display = 'none';
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            try {
+                const { data, error } = await client.auth.signUp({ email, password });
+                if (error) throw error;
+                status.className = "status-box success";
+                status.innerText = "Success! Account created. Now sign in on the right panel.";
+                status.style.display = 'block';
+                document.getElementById('register-form').reset();
+            } catch (err) {
+                status.className = "status-box error";
+                status.innerText = "Error: " + err.message;
+                status.style.display = 'block';
+            }
+        });
+
+        // Login Action Handler
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const status = document.getElementById('login-status');
+            status.style.display = 'none';
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const { data, error } = await client.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                status.className = "status-box success";
+                status.innerText = "Authorized! Redirecting to user panel...";
+                status.style.display = 'block';
+                window.location.href = "dashboard.html";
+            } catch (err) {
+                status.className = "status-box error";
+                status.innerText = "Error: " + err.message;
+                status.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

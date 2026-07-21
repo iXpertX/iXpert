@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - iXpert</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navbar Section -->
+    <header class="navbar">
+        <div class="logo">i<span class="highlight">Xpert</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="auth.html" id="nav-auth-btn" class="btn-nav">Sign Up</a>
+    </header>
+
+    <!-- Simple Services Page Content -->
+    <main style="padding: 100px 8%; text-align: center;">
+        <h1 style="font-size: 48px; color: #1e293b; margin-bottom: 10px;">Our Services</h1>
+        <p style="font-size: 18px;">This is your secondary navigated subpage.</p>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>i<span class="highlight">Xpert</span></h3>
+                <p>Building the digital products of tomorrow, today.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-socials">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 iXpert. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Persistent Session Engine Script -->
+    <script src="https://jsdelivr.net"></script>
+    <script>
+        (async function() {
+            // Correct global browser initialization fix
+            const client = supabase.createClient("https://supabase.co", "sb_publishable_0PC54EtXomVUGffAkZZDcg_WzhVfVsc");
+            const { data: { session } } = await client.auth.getSession();
+            if (session) {
+                const authBtn = document.getElementById('nav-auth-btn');
+                if (authBtn) {
+                    authBtn.innerText = "Dashboard";
+                    authBtn.href = "dashboard.html";
+                    authBtn.style.backgroundColor = "#0f172a";
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iXpert</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navbar Section -->
+    <header class="navbar">
+        <div class="logo">i<span class="highlight">Xpert</span></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="auth.html" id="nav-auth-btn" class="btn-nav">Sign Up</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to <span class="highlight">iXpert</span></h1>
+            <p>Level up your gaming experience. Your ultimate multi-vendor hub for instant rank boosting, elite account trading, and premium gift cards for your favorite games.</p>
+            <div class="hero-buttons">
+                <a href="services.html" class="btn-primary">Our Services <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2 class="section-title">Our Premium Services</h2>
+        <p class="section-subtitle">Premium solutions tailored for gamers, traders, and vendors</p>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-rocket service-icon"></i>
+                <h3>Account Boosting</h3>
+                <p>Crush your ranked matches. Hire professional Elo boosters to securely skip tiers and hit your dream rank fast.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-tags service-icon"></i>
+                <h3>Account Selling</h3>
+                <p>Skip the grind instantly. Buy and sell fully verified gaming accounts loaded with rare skins and elite progress safely.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-gift service-icon"></i>
+                <h3>Gift Cards</h3>
+                <p>Unlock in-game currencies. Get premium digital codes for Steam, PlayStation, Xbox, Roblox, and more at unbeatable rates.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>i<span class="highlight">Xpert</span></h3>
+                <p>Building the digital products of tomorrow, today.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                </ul>
+            </div>
+            <div class="footer-socials">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 iXpert. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Persistent Session Engine Script -->
+    <script src="https://jsdelivr.net"></script>
+    <script>
+        (async function() {
+            // Correct global browser initialization fix 
+            const client = supabase.createClient("https://supabase.co", "sb_publishable_0PC54EtXomVUGffAkZZDcg_WzhVfVsc");
+            const { data: { session } } = await client.auth.getSession();
+            if (session) {
+                const authBtn = document.getElementById('nav-auth-btn');
+                if (authBtn) {
+                    authBtn.innerText = "Dashboard";
+                    authBtn.href = "dashboard.html";
+                    authBtn.style.backgroundColor = "#0f172a";
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
