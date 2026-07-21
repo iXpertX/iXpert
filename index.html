@@ -15,18 +15,27 @@
 </head>
 <body>
 
-    <!-- Navbar Section -->
+    <!-- Responsive Navbar Section -->
     <header class="navbar">
         <div class="logo">i<span class="highlight">Xpert</span></div>
+        
+        <!-- Mobile Invisible Toggle Hooks -->
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <label for="nav-toggle" class="nav-toggle-label">
+            <span></span>
+        </label>
+
         <nav>
             <ul class="nav-links">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="services.html">Services</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <!-- Mobile Only Sign-Up Link -->
+                <li class="mobile-only-link"><a href="auth.html">Sign Up</a></li>
             </ul>
         </nav>
-        <a href="auth.html" id="nav-auth-btn" class="btn-nav">Sign Up</a>
+        <a href="auth.html" id="nav-auth-btn" class="btn-nav desktop-only-btn">Sign Up</a>
     </header>
 
     <!-- Hero Section -->
@@ -96,15 +105,19 @@
     <script src="https://jsdelivr.net"></script>
     <script>
         (async function() {
-            // Correct global browser initialization fix 
             const client = supabase.createClient("https://supabase.co", "sb_publishable_0PC54EtXomVUGffAkZZDcg_WzhVfVsc");
             const { data: { session } } = await client.auth.getSession();
             if (session) {
                 const authBtn = document.getElementById('nav-auth-btn');
+                const mobileLinks = document.querySelector('.mobile-only-link a');
                 if (authBtn) {
                     authBtn.innerText = "Dashboard";
                     authBtn.href = "dashboard.html";
                     authBtn.style.backgroundColor = "#0f172a";
+                }
+                if (mobileLinks) {
+                    mobileLinks.innerText = "Dashboard";
+                    mobileLinks.href = "dashboard.html";
                 }
             }
         })();
